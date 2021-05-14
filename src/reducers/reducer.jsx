@@ -8,24 +8,11 @@ const WarriorsReducer = (state = [], action) => {
     }
     case "filtered-warriors": {
       const { checkValue } = action.payload;
-      console.log(checkValue)
-      // const newState = [...state];
-      // newState.filter((item) => {
-      //   const {detail} = item;
-      //   if(detail){
-      //     console.log('Find this bick')
-      //     return ;
-      //   }
-      //   return item
-      // })
-      // .map(item => {
-      //   if(item.name.includes(checkValue)){
-      //     return item
-      //   }
-      //   return state
-      // });
-      // return state = newState;
-      return [...state]
+      const newState = [];
+      newState.push(state.filter(({name}) => name.includes(checkValue)))
+  
+      console.log(state)
+      return newState[0]
     }
     default:
       return state;
