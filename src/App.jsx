@@ -43,6 +43,9 @@ export const WarriorsApp = (props) => {
       const data = await response.json();
       warriorsArr.push(data);
     }
+    const response2 = await fetch('https://swapi.dev/api/people/');
+    const dataBase2 = await response2.json();
+    console.log('THIS NE DATABASE',dataBase2)
     const filteredArrayWithoutErr = warriorsArr.filter(({ name }) => name);
     setFilteredDataBase(filteredArrayWithoutErr);
     WarriorsDataBase(filteredArrayWithoutErr);
@@ -74,7 +77,7 @@ console.log(warriorsArr)
         imgUrl = female
       }  
       return (
-        <div class="card col-6 col-sm-5 col-md-2 mb-1 m-1" style={{ width: "18 rem" }}>
+        <div class="card col-6 col-sm-3 col-md-2 mb-1" style={{ width: "18 rem" }}>
           <img
             src={imgUrl}
             class="card-img-top"
@@ -102,17 +105,17 @@ console.log(warriorsArr)
     const buttons = <div className="row text-center"><button
     disabled={buttonPrevDisabled}
     onClick={()=>setListstButton(pageNumber - 1)}
-    className="col-3 btn btn-primary m-1 justify-content-center"
+    className="col-4 col-sm-4 btn btn-primary m-1"
   >
     Prev
   </button>
- <div className="col-3">
+ <div className="col-3 ">
    {pageNumber + 1} of {numberOfPages}
  </div>
   <button
     disabled={buttonNextDisabled}
     onClick={()=>setListstButton(pageNumber + 1)}
-    className="col-3 btn btn-primary m-1"
+    className="col-4 col-sm-4 btn btn-primary m-1"
   >
     Next
   </button></div> 
@@ -138,7 +141,7 @@ console.log(warriorsArr)
 
   return (
     <>
-      <div className="row">
+      <div className="row justify-content-around">
         <div className="row">
           <div className="col-12 text-center">
             <h1 className="main-logo">Star Wars</h1>
@@ -166,12 +169,12 @@ console.log(warriorsArr)
         </div>
        
       : 
-      <div className="row">
-          <div className="col-2 text-center">
+      <div className="row justify-content-center">
+          <div className="col-12 col-sm-4 col-md-2 text-center">
             <h4 className="filter-logo">Filters</h4>
           </div>
-          <div className="col-10">
-            <div className="col-12">
+          <div className="col-12 col-sm-10 col-md-10">
+            <div className="col-12 col-sm-12 col-md-8">
               <div class="input-group mb-3">
                 {/* Search warriors */}
                 <input
