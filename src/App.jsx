@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { capitalize, chunk } from "lodash";
 
+
+
 const mapTostate = (state) => {
   const { warriors } = state;
   const { filteredWarriors } = state;
@@ -61,7 +63,8 @@ const mapToDispatch = (dispatch) => {
 
 export const WarriorsApp = (props) => {
   const [checkWarriorValue, setCheckWarriorValue] = useState("");
-const [checkGenderBox , setCheckGenderBox] = useState({male:false,female:false})
+  const [displayWidth , setDisplayWidth] = useState(window.innerWidth);
+  const [checkGenderBox , setCheckGenderBox] = useState({male:false,female:false})
   const [loading, setLoading] = useState(true);
   const [listsButton, setListstButton] = useState(0);
   // const [maleFilterState , setMaleFilterState] = useState(false)
@@ -266,129 +269,274 @@ const [checkGenderBox , setCheckGenderBox] = useState({male:false,female:false})
           </div>
         ) : (
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-4 col-md-4 text-center">
-              <div className="col-12 shadow bg-white">
-                {/* filters fields */}
-                <h4 className="filter-logo">Filters</h4>
-                <div className="col-12 text-secondary m-1">
-                  <h6 className="text-start">Gender:</h6>
-                </div>
-                <div class="col-12 form-check form-switch m-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    onChange={filterMale}
-                    id="flexSwitchCheckDefault"
-                    checked={checkGenderBox.male}
-                  />
-                  <label
-                    className="form-check-label"
-                    for="flexSwitchCheckDefault"
-                  >
-                    <span className="genderFilter"> Male</span>
-                  </label>
-                </div>
-
-                <div className="col-12 form-check form-switch m-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="flexSwitchCheckDefault"
-                    checked={checkGenderBox.female}
-                    onChange={filterFemale}
-                  />
-                  <label
-                    className="form-check-label"
-                    for="flexSwitchCheckDefault"
-                  >
-                    <span className="genderFilter"> Female</span>
-                  </label>
-                </div>
-
-                <div className="col-12 text-secondary m-1">
-                  <h6 className="text-start">Eye color:</h6>
-                </div>
-                <div className="col-12 m-2">
-                  <div class="form-check m-1">
+            {displayWidth > 400 ? 
+                <div className="col-12 col-sm-4 col-md-4 text-center">
+                <div className="col-12 shadow bg-white">
+                  {/* filters fields */}
+                  
+                  <h4 className="filter-logo">Filters</h4>
+                  <div className="col-12 text-secondary m-1">
+                    <h6 className="text-start">Gender:</h6>
+                  </div>
+                  <div class="col-12 form-check form-switch m-2">
                     <input
-                      class="form-check-input "
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                      defaultChecked
-                      onChange={()=>eyeColorFilter('all')}
+                      class="form-check-input"
+                      type="checkbox"
+                      onChange={filterMale}
+                      id="flexSwitchCheckDefault"
+                      checked={checkGenderBox.male}
                     />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      All
+                    <label
+                      className="form-check-label"
+                      for="flexSwitchCheckDefault"
+                    >
+                      <span className="genderFilter"> Male</span>
                     </label>
                   </div>
-
-                  <div class="form-check m-1">
+  
+                  <div className="col-12 form-check form-switch m-2">
                     <input
-                    onChange={()=>eyeColorFilter('Black')}
                       class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
+                      type="checkbox"
+                      id="flexSwitchCheckDefault"
+                      checked={checkGenderBox.female}
+                      onChange={filterFemale}
                     />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Black
+                    <label
+                      className="form-check-label"
+                      for="flexSwitchCheckDefault"
+                    >
+                      <span className="genderFilter"> Female</span>
                     </label>
                   </div>
-
-                  <div class="form-check m-1">
-                    <input
-                    onChange={()=>eyeColorFilter('Blue')}
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault3"
-                    />
-                    <label class="form-check-label" for="flexRadioDefault3">
-                      Blue
-                    </label>
+  
+                  <div className="col-12 text-secondary m-1">
+                    <h6 className="text-start">Eye color:</h6>
                   </div>
-
-                  <div class="form-check m-1">
-                    <input
-                    onChange={()=>eyeColorFilter('Brown')}
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault4"
-                    />
-                    <label class="form-check-label" for="flexRadioDefault4">
-                      Brown
-                    </label>
-                  </div>
-
-                  <div class="form-check m-1">
-                    <input
-                    onChange={()=>eyeColorFilter('Red')}
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault5"
-                    />
-                    <label class="form-check-label" for="flexRadioDefault5">
-                      Red
-                    </label>
-                  </div>
-                  <div class="form-check m-1">
-                    <input
-                    onChange={()=>eyeColorFilter('Yellow')}
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault6"
-                    />
-                    <label class="form-check-label" for="flexRadioDefault6">
-                      Yellow
-                    </label>
+                  <div className="col-12 m-2">
+                    <div class="form-check m-1">
+                      <input
+                        class="form-check-input "
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        defaultChecked
+                        onChange={()=>eyeColorFilter('all')}
+                      />
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        All
+                      </label>
+                    </div>
+  
+                    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Black')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault2"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        Black
+                      </label>
+                    </div>
+  
+                    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Blue')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault3"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault3">
+                        Blue
+                      </label>
+                    </div>
+  
+                    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Brown')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault4"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault4">
+                        Brown
+                      </label>
+                    </div>
+  
+                    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Red')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault5"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault5">
+                        Red
+                      </label>
+                    </div>
+                    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Yellow')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault6"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault6">
+                        Yellow
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+                :
+                // Mobile version dropButton
+                <div class="col-12 dropdown m-1 p-1">
+  <button class="col-12 btn btn-secondary bg-white text-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Filters
+  </button>
+  <ul class="dropdown-menu col-12" aria-labelledby="dropdownMenuButton1">
+  <div className="col-12 text-secondary m-1">
+                    <h6 className="text-start">Gender:</h6>
+                  </div>
+    <li><span className="dropdown-item">
+    <div class="col-12 form-check form-switch m-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      onChange={filterMale}
+                      id="flexSwitchCheckDefault"
+                      checked={checkGenderBox.male}
+                    />
+                    <label
+                      className="form-check-label"
+                      for="flexSwitchCheckDefault"
+                    >
+                      <span className="genderFilter"> Male</span>
+                    </label>
+                  </div>
+      </span></li>
+    <li className="dropdown-item">
+    <div className="col-12 form-check form-switch m-2">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="flexSwitchCheckDefault"
+                      checked={checkGenderBox.female}
+                      onChange={filterFemale}
+                    />
+                    <label
+                      className="form-check-label"
+                      for="flexSwitchCheckDefault"
+                    >
+                      <span className="genderFilter"> Female</span>
+                    </label>
+                  </div>
+      </li>
+      <div className="col-12 text-secondary m-1">
+                    <h6 className="text-start">Eye color:</h6>
+                  </div>
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                        class="form-check-input "
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault1"
+                        defaultChecked
+                        onChange={()=>eyeColorFilter('all')}
+                      />
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        All
+                      </label>
+                    </div>
+    </li>
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Black')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault2"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault2">
+                        Black
+                      </label>
+                    </div>
+    </li>
+    <li className="dropdown-item">
+
+    </li>
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Blue')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault3"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault3">
+                        Blue
+                      </label>
+                    </div>
+    </li>
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Brown')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault4"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault4">
+                        Brown
+                      </label>
+                    </div>
+    </li>
+    
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Red')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault5"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault5">
+                        Red
+                      </label>
+                    </div>
+    </li>
+    <li className="dropdown-item">
+    <div class="form-check m-1">
+                      <input
+                      onChange={()=>eyeColorFilter('Yellow')}
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="flexRadioDefault6"
+                      />
+                      <label class="form-check-label" for="flexRadioDefault6">
+                        Yellow
+                      </label>
+                    </div>
+    </li>
+  
+
+  </ul>
+</div>
+
+                }
+            
             <div className="col-12 col-sm-10 col-md-8">
               <div className="col-12 col-sm-12 col-md-12">
                 <div class="input-group mb-3">
