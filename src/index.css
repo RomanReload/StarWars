@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background: #F3F7FA;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,4 +23,24 @@ code {
 
 .filter-logo {
     font-family: "StarWars";
+}
+
+#root {
+    background: #F3F7FA;
+}
+
+.genderFilter {
+    font-family: "StarWars";
+    color: #FB7363;
+}
+
+.form-check-input:checked {
+    background-color: #FB7363;
+    border-radius: 1;
+    border-color: #FB7363;
+}
+
+.buttonList {
+    background-color: #FB7363;
+    border-color: white;
 }
