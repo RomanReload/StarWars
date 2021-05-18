@@ -32,7 +32,7 @@ code {
 }
 
 #root {
-    background: #F3F7FA;
+    background: #E1E7EC;
 }
 
 .genderFilter {
@@ -49,6 +49,10 @@ code {
 .buttonList {
     background-color: #FB7363;
     border-color: white;
+}
+
+.li {
+    color: #FB7363;
 }
 
 .warrior-card {

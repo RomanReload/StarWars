@@ -82,7 +82,6 @@ const WarriorsReducer = (state = initialState, action) => {
     case 'EYE-FILTER':{
       const {eyeColor} = action.payload;
       const  eyeWarriorColor = eyeColor.toLowerCase();
-      const { filteredWarriors } = state;
       const {warriors} = state;
       const filteredByEyeColor = eyeWarriorColor !== 'all' ? warriors.filter((warrior) => warrior.eye_color === eyeWarriorColor)
   :warriors

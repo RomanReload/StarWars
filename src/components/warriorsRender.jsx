@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { capitalize, chunk } from "lodash";
+import React from "react";
+import { chunk , uniqueId } from "lodash";
 
 const  WarriorsRender = (warriorsArr, pageNumber = 0 , setListstButton) => {
     let partsOfCards = [];
-    console.log('???')
     if (warriorsArr.length < 10 || warriorsArr.length === 10) {
       partsOfCards.push(warriorsArr);
     }
@@ -51,13 +50,13 @@ const buttons = (
         }
         return (
 <>
-<div class="col-12 col-sm-6 col-md-3 card warrior-card mb-1" style={{ width: "15 rem" }}>
-  <img src={imgUrl} class="card-img-top img-fluid mt-1" alt="..."/>
+<div key={uniqueId(name)} className="col-6 col-sm-6 col-md-3 card warrior-card mb-1" style={{ width: "15 rem" }}>
+  <img src={imgUrl} className="card-img-top img-fluid mt-1" alt="..."/>
   <div class="card-body">
-    <h5 class="card-title">{name}</h5>
-    <p class="card-text">Eye color: {eye_color}</p>
-    <p class="card-text">Birth year: {birth_year}</p>
-    <p class="card-text">Gender: {gender}</p>
+    <h5 className="card-title">{name}</h5>
+    <p className="card-text">Eye color: {eye_color}</p>
+    <p className="card-text">Birth year: {birth_year}</p>
+    <p className="card-text">Gender: {gender}</p>
   </div>
 </div>
 </>
@@ -74,16 +73,6 @@ const buttons = (
     );
   };
 
-
-
-export const tryFoo  = (props) =>{
-
-    return (
-        <div>
-            <h1>HELLO FROM FOO</h1>
-        </div>
-    )
-}
 
 
   export default WarriorsRender;

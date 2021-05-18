@@ -5,16 +5,12 @@ const logo = () =>{
         <div className="col-12 text-center">
           <h1 className="main-logo">Star Wars</h1>
         </div>
-        <div className="col-12 text-center justify-content-start">
-          <a href="#" className="link-warning m-1">
-            Star Wars
-          </a>
-          <a href="#" className="link-warning m-1">
-            Data base
-          </a>
-          <a href="#" className="link-secondary m-1">
-            People
-          </a>
+        <div className="col-12 text-center">
+          <ul className="list-inline justify-content-around">
+            <li className="list-inline-item li">Star Wars </li>
+            <li className="list-inline-item li">Data base </li>
+            <li className="list-inline-item text-secondary border-bottom">People</li>
+          </ul>
         </div>
       </div>
     )

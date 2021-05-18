@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { capitalize, chunk } from "lodash";
+import { capitalize } from "lodash";
 import WarriorsRender from "./components/warriorsRender";
-import { tryFoo } from "./components/warriorsRender";
 import FilterPCdisplay from "./components/filterPCdis";
 import filterMobile from "./components/filterMobile";
 import Search from "./components/search";
@@ -68,7 +67,7 @@ const mapToDispatch = (dispatch) => {
 
 export const WarriorsApp = (props) => {
   const [checkWarriorValue, setCheckWarriorValue] = useState("");
-  const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+  const [displayWidth] = useState(window.innerWidth);
   const [checkGenderBox, setCheckGenderBox] = useState({
     male: false,
     female: false,
@@ -76,7 +75,7 @@ export const WarriorsApp = (props) => {
   const [loading, setLoading] = useState(true);
   const [listsButton, setListstButton] = useState(0);
 
-  const { allWarriors, filteredWarriorsRedux, filteredByGender } = props;
+  const { filteredWarriorsRedux } = props;
  
   const {
     WarriorsDataBase,
@@ -104,7 +103,7 @@ export const WarriorsApp = (props) => {
       setLoading(false);
     }
     fetchData();
-  }, [WarriorsDataBase]);
+  }, [WarriorsDataBase,filteredFromInput]);
 
   const filterFemale = (e) => {
     const checked = e.target.checked;
