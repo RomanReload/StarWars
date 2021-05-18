@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { capitalize, chunk } from "lodash";
-
+import WarriorsRender from "./components/warriorsRender";
+import { tryFoo } from "./components/warriorsRender";
+import FilterPCdisplay from "./components/filterPCdis";
+import filterMobile from "./components/filterMobile";
+import Search from "./components/search";
+import logo from "./components/logo";
 
 
 const mapTostate = (state) => {
@@ -63,14 +68,16 @@ const mapToDispatch = (dispatch) => {
 
 export const WarriorsApp = (props) => {
   const [checkWarriorValue, setCheckWarriorValue] = useState("");
-  const [displayWidth , setDisplayWidth] = useState(window.innerWidth);
-  const [checkGenderBox , setCheckGenderBox] = useState({male:false,female:false})
+  const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+  const [checkGenderBox, setCheckGenderBox] = useState({
+    male: false,
+    female: false,
+  });
   const [loading, setLoading] = useState(true);
   const [listsButton, setListstButton] = useState(0);
-  // const [maleFilterState , setMaleFilterState] = useState(false)
-  // const [femaleFilterState , setFemaleFilterState] = useState(false)
-  // redux data / dispatch
+
   const { allWarriors, filteredWarriorsRedux, filteredByGender } = props;
+ 
   const {
     WarriorsDataBase,
     filteredFromInput,
@@ -78,7 +85,7 @@ export const WarriorsApp = (props) => {
     genderFemaleFilter,
     colorEyeFilter,
   } = props;
-  console.log(filteredByGender);
+ 
   useEffect(() => {
     async function fetchData() {
       const allWarriorsFromDB = [];
@@ -92,7 +99,6 @@ export const WarriorsApp = (props) => {
       const filteredArrayWithoutErr = allWarriorsFromDB.filter(
         ({ name }) => name
       );
-      // setFilteredDataBase(filteredArrayWithoutErr);
       WarriorsDataBase(filteredArrayWithoutErr);
       filteredFromInput();
       setLoading(false);
@@ -100,161 +106,39 @@ export const WarriorsApp = (props) => {
     fetchData();
   }, [WarriorsDataBase]);
 
-  const WarriorsRender = (warriorsArr, pageNumber = 0) => {
-    let partsOfCards = [];
-    if (warriorsArr.length < 10 || warriorsArr.length === 10) {
-      partsOfCards.push(warriorsArr);
-    }
-    if (warriorsArr.length > 10) {
-      partsOfCards = chunk(warriorsArr, 10);
-    }
-    const numberOfPages = partsOfCards.length;
-    let buttonNextDisabled = numberOfPages === pageNumber + 1 ? true : false;
-    let buttonPrevDisabled = pageNumber + 1 === 1 ? true : false;
-
-    const cards = partsOfCards[pageNumber].map(
-      ({ name, eye_color, gender, birth_year }) => {
-        const [male, female, uknown] = [
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Man_silhouette.svg/1200px-Man_silhouette.svg.png",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVVf_1JQ-iuOKzPigHfMOY7wQovuA0gNaj0MShaP3XUE4Nl6Ga-U-L7pTE7hqMUFGTRC4&usqp=CAU",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTtz_ZY4wBFQ5npbmxk6uz7KdwevErHzHTSw&usqp=CAU",
-        ];
-        let imgUrl = uknown;
-        if (gender === "male") {
-          imgUrl = male;
-        }
-        if (gender === "female") {
-          imgUrl = female;
-        }
-        return (
-          <div
-            class="card col-6 col-sm-5 col-md-3 mb-1 p-1"
-            style={{ width: "18 rem" }}
-          >
-            <img src={imgUrl} class="card-img-top img-fluid" alt="..." />
-            <div class="col-12 card-body p-1">
-              {/* <div className="row">
-                <div className="col-12">
-                  <h4>{name}</h4>
-                </div>
-                <div className="col-12">
-                  <p>Eye color : {eye_color}</p>
-                </div>
-                <p className="row justify-content-center">
-                  <div className="col-6">Birth year :</div>
-                  <div className="col-6">{birth_year}</div>
-                </p>
-                <div className="col-12">
-                  <p>Gender : {gender}</p>
-                </div>
-              </div> */}
-              <table className="table">
-                <tbody>
-                  <tr scope="row">
-                    <td className="text-center border-0">
-                      {" "}
-                      <h3>{name}</h3>
-                    </td>
-                  </tr>
-                  <tr scope="row">
-                    <td className="text-center border-0">
-                      Eye color: {eye_color}
-                    </td>
-                  </tr>
-                  <tr scope="row">
-                    <td className="text-center border-0">
-                      Birth year: {birth_year}
-                    </td>
-                  </tr>
-                  <tr scope="row">
-                    <td className="text-center border-0">Gender: {gender}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        );
-      }
-    );
-    const buttons = (
-      <div className="row text-center">
-        <button
-          disabled={buttonPrevDisabled}
-          onClick={() => setListstButton(pageNumber - 1)}
-          className="col-4 col-sm-4 btn  text-white m-1 buttonList"
-        >
-          Prev
-        </button>
-        <div className="col-3 ">
-          {pageNumber + 1} of {numberOfPages}
-        </div>
-        <button
-          disabled={buttonNextDisabled}
-          onClick={() => setListstButton(pageNumber + 1)}
-          className="col-4 col-sm-4 btn text-white  m-1 buttonList"
-        >
-          Next
-        </button>
-      </div>
-    );
-    return (
-      <>
-        {cards}
-        {buttons}
-      </>
-    );
-  };
-
   const filterFemale = (e) => {
     const checked = e.target.checked;
-    setCheckGenderBox({male:checkGenderBox.male , female:checked})
+    setCheckGenderBox({ male: checkGenderBox.male, female: checked });
     genderFemaleFilter(checked);
     setListstButton(0);
   };
   const filterMale = (e) => {
     const checked = e.target.checked;
-    setCheckGenderBox({male:checked , female:checkGenderBox.female})
+    setCheckGenderBox({ male: checked, female: checkGenderBox.female });
     genderMaleFilter(checked);
     setListstButton(0);
   };
 
-  const eyeColorFilter = (eyeColor)=>{
-    colorEyeFilter(eyeColor)
-    setListstButton(0)
-  }
+  const eyeColorFilter = (eyeColor) => {
+    colorEyeFilter(eyeColor);
+    setListstButton(0);
+  };
 
   const onChangeInput = (e) => {
-  genderMaleFilter()
-  genderFemaleFilter()
- 
+    genderMaleFilter();
+    genderFemaleFilter();
+
     const targetValue = e.target.value;
     setCheckWarriorValue(targetValue);
     filteredFromInput(targetValue);
-    setCheckGenderBox({male:false , female:false})
+    setCheckGenderBox({ male: false, female: false });
     setListstButton(0);
- 
   };
-
 
   return (
     <>
       <div className="row justify-content-around">
-        <div className="row">
-          <div className="col-12 text-center">
-            <h1 className="main-logo">Star Wars</h1>
-          </div>
-          <div className="col-12 text-center justify-content-start">
-            <a href="#" className="link-warning m-1">
-              Star Wars
-            </a>
-            <a href="#" className="link-warning m-1">
-              Data base
-            </a>
-            <a href="#" className="link-secondary m-1">
-              People
-            </a>
-          </div>
-        </div>
+       {logo()}
         {loading ? (
           <div className="row justify-content-center">
             <div
@@ -268,293 +152,31 @@ export const WarriorsApp = (props) => {
             <div class="col-4 spinner-grow text-info m-1" role="status"></div>
           </div>
         ) : (
-          <div className="row justify-content-center">
-            {displayWidth > 400 ? 
-                <div className="col-12 col-sm-4 col-md-4 text-center">
-                <div className="col-12 shadow bg-white">
-                  {/* filters fields */}
-                  
-                  <h4 className="filter-logo">Filters</h4>
-                  <div className="col-12 text-secondary m-1">
-                    <h6 className="text-start">Gender:</h6>
-                  </div>
-                  <div class="col-12 form-check form-switch m-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      onChange={filterMale}
-                      id="flexSwitchCheckDefault"
-                      checked={checkGenderBox.male}
-                    />
-                    <label
-                      className="form-check-label"
-                      for="flexSwitchCheckDefault"
-                    >
-                      <span className="genderFilter"> Male</span>
-                    </label>
-                  </div>
-  
-                  <div className="col-12 form-check form-switch m-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckDefault"
-                      checked={checkGenderBox.female}
-                      onChange={filterFemale}
-                    />
-                    <label
-                      className="form-check-label"
-                      for="flexSwitchCheckDefault"
-                    >
-                      <span className="genderFilter"> Female</span>
-                    </label>
-                  </div>
-  
-                  <div className="col-12 text-secondary m-1">
-                    <h6 className="text-start">Eye color:</h6>
-                  </div>
-                  <div className="col-12 m-2">
-                    <div class="form-check m-1">
-                      <input
-                        class="form-check-input "
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        defaultChecked
-                        onChange={()=>eyeColorFilter('all')}
-                      />
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        All
-                      </label>
-                    </div>
-  
-                    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Black')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault2"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault2">
-                        Black
-                      </label>
-                    </div>
-  
-                    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Blue')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault3"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault3">
-                        Blue
-                      </label>
-                    </div>
-  
-                    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Brown')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault4"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault4">
-                        Brown
-                      </label>
-                    </div>
-  
-                    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Red')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault5"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault5">
-                        Red
-                      </label>
-                    </div>
-                    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Yellow')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault6"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault6">
-                        Yellow
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                :
-                // Mobile version dropButton
-                <div class="col-12 dropdown m-1 p-1">
-  <button class="col-12 btn btn-secondary bg-white text-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Filters
-  </button>
-  <ul class="dropdown-menu col-12" aria-labelledby="dropdownMenuButton1">
-  <div className="col-12 text-secondary m-1">
-                    <h6 className="text-start">Gender:</h6>
-                  </div>
-    <li><span className="dropdown-item">
-    <div class="col-12 form-check form-switch m-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      onChange={filterMale}
-                      id="flexSwitchCheckDefault"
-                      checked={checkGenderBox.male}
-                    />
-                    <label
-                      className="form-check-label"
-                      for="flexSwitchCheckDefault"
-                    >
-                      <span className="genderFilter"> Male</span>
-                    </label>
-                  </div>
-      </span></li>
-    <li className="dropdown-item">
-    <div className="col-12 form-check form-switch m-2">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="flexSwitchCheckDefault"
-                      checked={checkGenderBox.female}
-                      onChange={filterFemale}
-                    />
-                    <label
-                      className="form-check-label"
-                      for="flexSwitchCheckDefault"
-                    >
-                      <span className="genderFilter"> Female</span>
-                    </label>
-                  </div>
-      </li>
-      <div className="col-12 text-secondary m-1">
-                    <h6 className="text-start">Eye color:</h6>
-                  </div>
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                        class="form-check-input "
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        defaultChecked
-                        onChange={()=>eyeColorFilter('all')}
-                      />
-                      <label class="form-check-label" for="flexRadioDefault1">
-                        All
-                      </label>
-                    </div>
-    </li>
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Black')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault2"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault2">
-                        Black
-                      </label>
-                    </div>
-    </li>
-    <li className="dropdown-item">
+          <div className="row justify-content-around">
+            {displayWidth > 400
+              ? FilterPCdisplay(
+                  filterMale,
+                  filterFemale,
+                  checkGenderBox,
+                  eyeColorFilter
+                )
+              : filterMobile(
+                  filterMale,
+                  filterFemale,
+                  checkGenderBox,
+                  eyeColorFilter
+                )}
 
-    </li>
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Blue')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault3"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault3">
-                        Blue
-                      </label>
-                    </div>
-    </li>
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Brown')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault4"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault4">
-                        Brown
-                      </label>
-                    </div>
-    </li>
-    
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Red')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault5"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault5">
-                        Red
-                      </label>
-                    </div>
-    </li>
-    <li className="dropdown-item">
-    <div class="form-check m-1">
-                      <input
-                      onChange={()=>eyeColorFilter('Yellow')}
-                        class="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault6"
-                      />
-                      <label class="form-check-label" for="flexRadioDefault6">
-                        Yellow
-                      </label>
-                    </div>
-    </li>
-  
-
-  </ul>
-</div>
-
-                }
-            
-            <div className="col-12 col-sm-10 col-md-8">
-              <div className="col-12 col-sm-12 col-md-12">
-                <div class="input-group mb-3">
-                  {/* Search warriors */}
-                  <input
-                    type="text"
-                    placeholder={`Type name of warrior`}
-                    value={checkWarriorValue}
-                    onChange={onChangeInput}
-                    class="form-control"
-                    aria-label="Text input with segmented dropdown button"
-                  />
-                </div>
-              </div>
+            <div className="col-12 col-sm-10 col-md-8 p-1">
+              {Search(checkWarriorValue, onChangeInput)}
               {/* Warriors Field */}
               <div className="col-12">
-                <div className="row justify-content-around shadow">
-                  {WarriorsRender(filteredWarriorsRedux, listsButton)}
+                <div className="row justify-content-start shadow m-1 p-1">
+                  {WarriorsRender(
+                    filteredWarriorsRedux,
+                    listsButton,
+                    setListstButton
+                  )}
                 </div>
               </div>
             </div>
