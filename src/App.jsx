@@ -138,19 +138,11 @@ export const WarriorsApp = (props) => {
       <div className="row justify-content-around">
         <Logo />
         {loading ? (
-          <div className="row justify-content-center">
-            <div
-              className="col-4 spinner-grow text-primary m-1"
-              role="status"
-            ></div>
-            <div
-              className="col-4 spinner-grow text-warning m-1"
-              role="status"
-            ></div>
-            <div
-              className="col-4 spinner-grow text-info m-1"
-              role="status"
-            ></div>
+          <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         ) : (
           <div className="row justify-content-around">
@@ -174,7 +166,7 @@ export const WarriorsApp = (props) => {
               {Search(checkWarriorValue, onChangeInput)}
               {/* Warriors Field */}
               <div className="col-12">
-                <div className="row justify-content-start shadow m-1 p-1">
+                <div className="row justify-content-around shadow m-1 p-1">
                   <WarriorsBlock
                     warriorsArr={filteredWarriorsRedux}
                     listsButton={listsButton}
