@@ -9,11 +9,11 @@ const initialState = {
 
 const WarriorsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "create-warriors-arr": {
+    case "CREATE-WARRIORS-ARR": {
       const { warriors } = action.payload;
       return { ...state, warriors: [...warriors] };
     }
-    case "filtered-warriors": {
+    case "FILTERED-WARRIORS": {
       const { checkValue } = action.payload;
       const { warriors } = state;
       const filteredWarriors = checkValue
@@ -22,7 +22,7 @@ const WarriorsReducer = (state = initialState, action) => {
       return { ...state, filteredWarriors: filteredWarriors };
     }
 
-    case "gender-male-filter": {
+    case "GENDER-MALE-FILTER": {
       const { male } = action.payload;
       const { genderState } = state;
       const { female } = genderState;
@@ -31,13 +31,17 @@ const WarriorsReducer = (state = initialState, action) => {
       const onlyMaleWarriors =
         male === true && !female
           ? warriors.filter((warrior) => warrior.gender === "male")
-          : warriors.filter((warrior) => warrior.gender !== "male" && warrior.gender !== 'n/a' && warrior.gender!=='none');
+          : warriors.filter(
+              (warrior) =>
+                warrior.gender !== "male" &&
+                warrior.gender !== "n/a" &&
+                warrior.gender !== "none"
+            );
 
       const femaleAndMaleWarriors = warriors.filter(
         (warr) => warr.gender === "male" || warr.gender === "female"
       );
       if (female && male) {
-
         return {
           ...state,
           ...genderState,
@@ -51,7 +55,7 @@ const WarriorsReducer = (state = initialState, action) => {
       return { ...state, ...genderState, filteredWarriors: onlyMaleWarriors };
     }
 
-    case "gender-female-filter": {
+    case "GENDER-FEMALE-FILTER": {
       const { female } = action.payload;
       const { genderState } = state;
       const { male } = genderState;
@@ -60,7 +64,12 @@ const WarriorsReducer = (state = initialState, action) => {
       const onlyFemaleWarriors =
         female === true && !male
           ? warriors.filter((warrior) => warrior.gender === "female")
-          : warriors.filter((warrior) => warrior.gender !== "female" && warrior.gender !== 'n/a' && warrior.gender!=='none');
+          : warriors.filter(
+              (warrior) =>
+                warrior.gender !== "female" &&
+                warrior.gender !== "n/a" &&
+                warrior.gender !== "none"
+            );
 
       const femaleAndMaleWarriors = warriors.filter(
         (warr) => warr.gender === "male" || warr.gender === "female"
@@ -79,14 +88,21 @@ const WarriorsReducer = (state = initialState, action) => {
       return { ...state, ...genderState, filteredWarriors: onlyFemaleWarriors };
     }
 
-    case 'EYE-FILTER':{
-      const {eyeColor} = action.payload;
-      const  eyeWarriorColor = eyeColor.toLowerCase();
-      const {warriors} = state;
-      const filteredByEyeColor = eyeWarriorColor !== 'all' ? warriors.filter((warrior) => warrior.eye_color === eyeWarriorColor)
-  :warriors
-  return {...state , filteredWarriors : filteredByEyeColor}
+    case "EYE-FILTER": {
+      const { eyeColor } = action.payload;
+      const eyeWarriorColor = eyeColor.toLowerCase();
+      const { warriors } = state;
+      const filteredByEyeColor =
+        eyeWarriorColor !== "all"
+          ? warriors.filter((warrior) => warrior.eye_color === eyeWarriorColor)
+          : warriors;
+      return { ...state, filteredWarriors: filteredByEyeColor };
     }
+      case "TRY-CLICK" :{
+        const {payload} = action;
+      
+        return state
+      }
 
     default:
       return state;

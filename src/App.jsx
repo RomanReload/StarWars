@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { capitalize } from "lodash";
-import WarriorsRender from "./components/warriorsRender";
+import WarriorsBlock from "./components/warriorsRender";
 import FilterPCdisplay from "./components/filterPCdis";
-import filterMobile from "./components/filterMobile";
+import FilterMobile from "./components/filterMobile";
 import Search from "./components/search";
-import logo from "./components/logo";
+import Logo from "./components/logo";
 
-
-const mapTostate = (state) => {
+const MapToState = (state) => {
   const { warriors } = state;
   const { filteredWarriors } = state;
   const { genderFilter } = state;
@@ -21,18 +20,18 @@ const mapTostate = (state) => {
   };
 };
 
-const mapToDispatch = (dispatch) => {
+const DispatchToProps = (dispatch) => {
   return {
     WarriorsDataBase: (arr) =>
       dispatch({
-        type: "create-warriors-arr",
+        type: "CREATE-WARRIORS-ARR",
         payload: {
           warriors: arr,
         },
       }),
     filteredFromInput: (value) =>
       dispatch({
-        type: "filtered-warriors",
+        type: "FILTERED-WARRIORS",
         payload: {
           checkValue: capitalize(value),
         },
@@ -40,7 +39,7 @@ const mapToDispatch = (dispatch) => {
 
     genderMaleFilter: (boolean = false) => {
       dispatch({
-        type: "gender-male-filter",
+        type: "GENDER-MALE-FILTER",
         payload: {
           male: boolean,
         },
@@ -48,7 +47,7 @@ const mapToDispatch = (dispatch) => {
     },
     genderFemaleFilter: (boolean = false) => {
       dispatch({
-        type: "gender-female-filter",
+        type: "GENDER-FEMALE-FILTER",
         payload: {
           female: boolean,
         },
@@ -67,16 +66,15 @@ const mapToDispatch = (dispatch) => {
 
 export const WarriorsApp = (props) => {
   const [checkWarriorValue, setCheckWarriorValue] = useState("");
-  const [displayWidth] = useState(window.innerWidth);
+  const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
   const [checkGenderBox, setCheckGenderBox] = useState({
     male: false,
     female: false,
   });
   const [loading, setLoading] = useState(true);
   const [listsButton, setListstButton] = useState(0);
-
   const { filteredWarriorsRedux } = props;
- 
+
   const {
     WarriorsDataBase,
     filteredFromInput,
@@ -84,7 +82,7 @@ export const WarriorsApp = (props) => {
     genderFemaleFilter,
     colorEyeFilter,
   } = props;
- 
+
   useEffect(() => {
     async function fetchData() {
       const allWarriorsFromDB = [];
@@ -103,7 +101,7 @@ export const WarriorsApp = (props) => {
       setLoading(false);
     }
     fetchData();
-  }, [WarriorsDataBase,filteredFromInput]);
+  }, [WarriorsDataBase, filteredFromInput]);
 
   const filterFemale = (e) => {
     const checked = e.target.checked;
@@ -119,6 +117,7 @@ export const WarriorsApp = (props) => {
   };
 
   const eyeColorFilter = (eyeColor) => {
+    setCheckGenderBox({ male: false, female: false });
     colorEyeFilter(eyeColor);
     setListstButton(0);
   };
@@ -137,45 +136,50 @@ export const WarriorsApp = (props) => {
   return (
     <>
       <div className="row justify-content-around">
-       {logo()}
+        <Logo />
         {loading ? (
           <div className="row justify-content-center">
             <div
-              class="col-4 spinner-grow text-primary m-1"
+              className="col-4 spinner-grow text-primary m-1"
               role="status"
             ></div>
             <div
-              class="col-4 spinner-grow text-warning m-1"
+              className="col-4 spinner-grow text-warning m-1"
               role="status"
             ></div>
-            <div class="col-4 spinner-grow text-info m-1" role="status"></div>
+            <div
+              className="col-4 spinner-grow text-info m-1"
+              role="status"
+            ></div>
           </div>
         ) : (
           <div className="row justify-content-around">
-            {displayWidth > 400
-              ? FilterPCdisplay(
-                  filterMale,
-                  filterFemale,
-                  checkGenderBox,
-                  eyeColorFilter
-                )
-              : filterMobile(
-                  filterMale,
-                  filterFemale,
-                  checkGenderBox,
-                  eyeColorFilter
-                )}
+            {displayWidth > 400 ? (
+              <FilterPCdisplay
+                filterMale={filterMale}
+                filterFemale={filterFemale}
+                checkGenderBox={checkGenderBox}
+                eyeColorFilter={eyeColorFilter}
+              />
+            ) : (
+              <FilterMobile
+                filterMale={filterMale}
+                filterFemale={filterFemale}
+                checkGenderBox={checkGenderBox}
+                eyeColorFilter={eyeColorFilter}
+              />
+            )}
 
             <div className="col-12 col-sm-10 col-md-8 p-1">
               {Search(checkWarriorValue, onChangeInput)}
               {/* Warriors Field */}
               <div className="col-12">
                 <div className="row justify-content-start shadow m-1 p-1">
-                  {WarriorsRender(
-                    filteredWarriorsRedux,
-                    listsButton,
-                    setListstButton
-                  )}
+                  <WarriorsBlock
+                    warriorsArr={filteredWarriorsRedux}
+                    listsButton={listsButton}
+                    setListstButton={setListstButton}
+                  />
                 </div>
               </div>
             </div>
@@ -186,4 +190,4 @@ export const WarriorsApp = (props) => {
   );
 };
 
-export default connect(mapTostate, mapToDispatch)(WarriorsApp);
+export default connect(MapToState, DispatchToProps)(WarriorsApp);

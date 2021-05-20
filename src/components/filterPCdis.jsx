@@ -1,9 +1,9 @@
 
-const FilterPCdisplay = (filterMale , filterFemale, checkGenderBox , eyeColorFilter )=>{
+const FilterPCdisplay = ({filterMale , filterFemale, checkGenderBox , eyeColorFilter })=>{
 
     return (
         <>
-         <div className="col-12 col-sm-4 col-md-4 text-center p-1">
+         <div className="col-12 col-sm-10 col-md-4 text-center p-1">
                 <div className="col-12 shadow bg-white">
                   {/* filters fields */}
                   

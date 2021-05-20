@@ -1,4 +1,4 @@
-const logo = () =>{
+const Logo = () =>{
 
     return (
         <div className="row">
@@ -15,4 +15,4 @@ const logo = () =>{
       </div>
     )
 }
-export default logo;
+export default Logo;

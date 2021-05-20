@@ -1,4 +1,4 @@
-const filterMobile = (filterMale , filterFemale, checkGenderBox , eyeColorFilter ) =>{
+const FilterMobile = ({filterMale , filterFemale, checkGenderBox , eyeColorFilter }) =>{
 
     return (
         <div className="col-12 dropdown m-1 p-1">
@@ -142,4 +142,4 @@ const filterMobile = (filterMale , filterFemale, checkGenderBox , eyeColorFilter
     )
 }
 
-export default filterMobile;
+export default FilterMobile;
